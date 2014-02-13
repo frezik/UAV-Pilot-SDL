@@ -18,7 +18,7 @@ my $build = Module::Build->new(
     dist_author       => q{Timm Murray <tmurray@wumpus-cave.net>},
     dist_version_from => 'lib/UAV/Pilot/SDL.pm',
     license           => 'bsd',
-    needs_compiler    => 1,
+    needs_compiler    => 0,
     build_requires    => {
         'ExtUtils::CBuilder' => 0, # For FFmpeg; make optional with that
     },
@@ -31,8 +31,7 @@ my $build = Module::Build->new(
         'MooseX::Event'             => 0,
         'SDL'                       => 0,
         'Test::More'                => 0,
-        'UAV::Pilot'                => '0.9',
-        'UAV::Pilot::Video::Ffmpeg' => 0,
+        'UAV::Pilot'                => '>= 0.9',
     },
 
     include_dirs         => ['.'],
