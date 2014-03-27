@@ -180,7 +180,7 @@ sub process_events
         . ' Y: '      . $rect->y
         . ' Width: '  . $rect->w
         . ' Height: ' . $rect->h );
-    SDL::Video::update_rects( $self->sdl, $self->_bg_rect );
+    #SDL::Video::update_rects( $self->sdl, $self->_bg_rect );
     # Cleanup
     $self->_origin_x( 0 );
     $self->_origin_y( 0 );
