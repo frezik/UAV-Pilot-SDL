@@ -101,6 +101,12 @@ sub add_to_window
     return 1;
 }
 
+sub update_window_rect
+{
+    # Do nothing, since YUV overlay updates the area for us
+    return 1;
+}
+
 
 sub process_raw_frame
 {

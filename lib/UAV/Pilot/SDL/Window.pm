@@ -195,6 +195,7 @@ sub process_events
         $self->_origin_y( $child->{origin_y} );
         $self->_drawer( $drawer );
         $drawer->draw( $self );
+        $drawer->update_window_rect( $self );
     }
 
     my $rect = $self->_bg_rect;
@@ -264,6 +265,15 @@ sub draw_rect
     $rect_data->[0] += $self->_origin_x;
     $rect_data->[1] += $self->_origin_y;
     $self->sdl->draw_rect( $rect_data, $color);
+    return 1;
+}
+
+sub update_rect
+{
+    my ($self, $width, $height) = @_;
+    my $rect = SDL::Rect->new( $self->_origin_x, $self->_origin_y, 
+        $width, $height );
+    SDL::Video::update_rects( $self->sdl, $rect );
     return 1;
 }
 
@@ -427,6 +437,12 @@ Draws a circle.  The C<$color> param is an C<SDL::Color> object.
 
     draw_rect( [$x, $y, $width, $height], $color )
 
-Draws a rect.  the C<$color> param is an C<SDL::Color> object.
+Draws a rect.  The C<$color> param is an C<SDL::Color> object.
+
+=head2 update_rect
+
+    update_rect( $width, $height )
+
+Updates the draw area for the active window.
 
 =cut

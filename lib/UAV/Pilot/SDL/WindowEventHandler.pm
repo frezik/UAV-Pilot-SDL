@@ -40,11 +40,19 @@ has 'height' => (
 
 requires 'draw';
 
+
 sub add_to_window
 {
     my ($self, $window, $location) = @_;
     $location //= $window->BOTTOM;
     $window->add_child( $self, $location );
+    return 1;
+}
+
+sub update_window_rect
+{
+    my ($self, $window) = @_;
+    $window->update_rect( $self->width, $self->height );
     return 1;
 }
 
@@ -65,6 +73,11 @@ children.
 The method C<draw> will be called on the object to draw itself.  It will be 
 passed the C<UAV::Pilot::SDL::Window> object.  This is the only method that 
 is required for the class doing the role to implement.
+
+The C<update_window_rect> method is passed an C<UAV::Pilot::SDL::Window>, and 
+is called after C<draw>.  The default implementation will call 
+C<<UAV::Pilot::SDL::Window->update_rect>>, but you may wish to override this 
+if you have other means of updating your drawing area.
 
 The C<add_to_window> method should be called on the object after construction 
 and passed an C<UAV::Pilot::SDL::Window> object.  A second optional parameter 
