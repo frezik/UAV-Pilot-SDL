@@ -31,11 +31,14 @@ use SDL::Event;
 use SDL::Events;
 use SDL::Video qw{ :surface :video };
 use SDL::Overlay;
+use Time::HiRes ();
 use UAV::Pilot::SDL::VideoOverlay;
 
 require DynaLoader;
 our @ISA = qw(DynaLoader);
 bootstrap UAV::Pilot::SDL::Video;
+
+with 'UAV::Pilot::Logger';
 
 
 use constant {
@@ -56,6 +59,15 @@ with 'UAV::Pilot::Video::RawHandler';
 has '_last_vid_frame' => (
     is  => 'rw',
     isa => 'Maybe[UAV::Pilot::Video::H264Decoder]',
+);
+has 'frames_processed' => (
+    traits  => ['Number'],
+    is      => 'ro',
+    isa     => 'Int',
+    default => 0,
+    handles => {
+        '_add_frames_processed' => 'add',
+    },
 );
 has '_bg_rect' => (
     is     => 'ro',
@@ -119,6 +131,7 @@ sub process_raw_frame
     }
 
     $self->_last_vid_frame( $decoder );
+    $self->_add_frames_processed( 1 );
     return 1;
 }
 
@@ -150,6 +163,10 @@ sub draw
         
         SDL::Video::update_rects( $window->sdl, $bg_rect );
     }
+
+    $self->_logger->info( 'VIDEO_FRAME_TIMER,DISPLAY,'
+        . $self->frames_processed
+        . ',' . join( ',', Time::HiRes::gettimeofday ) );
 
     return 1;
 }
