@@ -27,11 +27,10 @@ use Moose;
 use namespace::autoclean;
 use File::HomeDir;
 use YAML ();
+use SDL;
+use SDL::Joystick;
 
 my $IS_SDL_INIT_DONE = 0;
-######
-# NOTE: Need to be able to safely load this module without having SDL installed
-######
 
 use constant MAX_AXIS_INT      => 32768;
 use constant MIN_AXIS_INT      => -32767;
@@ -272,12 +271,7 @@ sub _one_time_init
 {
     return 1 if $IS_SDL_INIT_DONE;
 
-    eval <<END;
-        use SDL;
-        use SDL::Joystick;
-        SDL::init_sub_system( SDL_INIT_JOYSTICK );
-END
-    die "Could not init SDL::Joystick: $@" if $@;
+    SDL::init_sub_system( SDL_INIT_JOYSTICK );
 
     $IS_SDL_INIT_DONE = 1;
     return 1;
