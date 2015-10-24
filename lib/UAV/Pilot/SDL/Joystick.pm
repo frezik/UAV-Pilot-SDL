@@ -32,8 +32,8 @@ use SDL::Joystick;
 
 my $IS_SDL_INIT_DONE = 0;
 
-use constant MAX_AXIS_INT      => 32768;
-use constant MIN_AXIS_INT      => -32767;
+use constant MAX_AXIS_INT      => 32767;
+use constant MIN_AXIS_INT      => -32768;
 use constant EVENT_NAME        => 'uav_pilot_sdl_joystick';
 use constant DEFAULT_CONF_FILE => 'sdl_joystick.yml';
 use constant DEFAULT_CONF      => {
@@ -290,9 +290,16 @@ __END__
 =head1 SYNOPSIS
 
     my $condvar = AnyEvent->condvar;
-    my $events = UAV::Pilot::EasyEvent->new({
+    my $event = UAV::Pilot::Events->new({
         condvar => $condvar,
     });
+    my $easy_event = UAV::Pilot::EasyEvent->new({
+        condvar => $condvar,
+    });
+    my $sdl_events = UAV::Pilot::SDL::Events->new({
+        condvar => $condvar,
+    });
+    $events->register( $sdl_events );
     
     my $control = UAV::Pilot::Controller::ARDrone->new( ... );
     my $joy = UAV::Pilot::SDL::Joystick->new({
@@ -300,11 +307,7 @@ __END__
         events     => $events,
         conf_path  => '/path/to/config.yml', # optional
     });
-    
-    my $sdl_events = UAV::Pilot::SDL::Events->new({
-        condvar    => $condvar,
-    });
-    $sdl_events->register( $joy );
+    $events->register( $joy );
 
     # Capture joystick movements in EasyEvent
     $events->add_event( UAV::Pilot::SDL::Joystick->EVENT_NAME, sub {

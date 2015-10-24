@@ -4,6 +4,7 @@ use Module::Build;
 
 my @build_flags = (
     '-Wall',
+    #'-fPIC',
     scalar( `pkg-config --cflags libavcodec libswscale` ),
     scalar( `sdl-config --cflags` ),
 );
@@ -32,7 +33,7 @@ my $build = Module::Build->new(
         'SDL'                       => 0,
         'Test::More'                => 0,
         'Time::HiRes'               => 0,
-        'UAV::Pilot'                => '>= 0.9',
+        'UAV::Pilot'                => '1.1',
     },
 
     include_dirs         => ['.'],
