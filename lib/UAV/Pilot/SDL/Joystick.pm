@@ -32,7 +32,7 @@ use SDL::Joystick;
 
 my $IS_SDL_INIT_DONE = 0;
 
-use constant MAX_AXIS_INT      => 32767;
+use constant MAX_AXIS_INT      => 32768;
 use constant MIN_AXIS_INT      => -32768;
 use constant EVENT_NAME        => 'uav_pilot_sdl_joystick';
 use constant DEFAULT_CONF_FILE => 'sdl_joystick.yml';

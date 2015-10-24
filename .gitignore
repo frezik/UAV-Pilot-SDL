@@ -3,3 +3,5 @@ _build
 blib
 MYMETA.*
 META.*
+*.c
+*.o
