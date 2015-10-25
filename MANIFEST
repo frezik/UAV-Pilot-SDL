@@ -17,6 +17,7 @@ META.json
 META.yml
 ppport.h
 README
+RELEASE.HOWTO
 t/001_load.t
 t/002_pod.t
 t/170_sdl_window.t
